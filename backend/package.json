@@ -4,7 +4,8 @@
   "description": "A complete MERN Todo list app built with Typescript for both the frontend and backend",
   "main": "dist/server.js",
   "scripts": {
-    "start": "nodemon src/server.ts"
+    "start": "nodemon src/server.ts",
+    "lint": "eslint . --ext .ts"
   },
   "author": "Amadu Kamara (Amkam)",
   "license": "MIT",
