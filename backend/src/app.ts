@@ -1,19 +1,15 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 
-import TodoModel from "./models/todo";
-import e from "express";
+import todosRoutes from "./routes/todos";
 
 const app = express();
 
-app.get("/", async (req, res, next) => {
-  try {
-    const todos = await TodoModel.find().exec();
-    res.status(200).json(todos);
-  } catch (error) {
-    next(error);
-  }
-});
+// Express middleware
+app.use(express.json());
+
+// API Routes
+app.use("/api/v1/todos", todosRoutes);
 
 // Middleware to catch routes not found
 app.use((req, res, next) => {
