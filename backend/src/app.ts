@@ -1,9 +1,12 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
+import morgan from "morgan";
 
 import todosRoutes from "./routes/todos";
 
 const app = express();
+
+app.use(morgan("dev"));
 
 // Express middleware
 app.use(express.json());
