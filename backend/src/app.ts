@@ -2,12 +2,15 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
+import cors from "cors";
 
 import todosRoutes from "./routes/todos";
 
 const app = express();
 
 app.use(morgan("dev"));
+
+app.use(cors());
 
 // Express middleware
 app.use(express.json());
