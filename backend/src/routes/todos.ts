@@ -16,4 +16,7 @@ router.post("/", TodosController.createTodo);
 // Update a Todo
 router.patch("/:todoId", TodosController.updateTodo);
 
+// Delete a Todo
+router.delete("/:todoId", TodosController.deleteTodo);
+
 export default router;

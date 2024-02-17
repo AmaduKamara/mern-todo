@@ -124,3 +124,26 @@ export const updateTodo: RequestHandler<
     next(error);
   }
 };
+
+// Delete a todo
+export const deleteTodo: RequestHandler = async (req, res, next) => {
+  const todoId = req.params.todoId;
+
+  try {
+    if (!mongoose.isValidObjectId(todoId)) {
+      throw createHttpError(400, "Invalid todo ID");
+    }
+
+    const todo = await TodoModel.findById(todoId).exec();
+
+    if (!todo) {
+      throw createHttpError(404, "Todo not found");
+    }
+
+    await todo.deleteOne();
+
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
