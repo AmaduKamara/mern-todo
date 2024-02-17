@@ -13,4 +13,7 @@ router.get("/:todoId", TodosController.getTodo);
 // Create a new Todo
 router.post("/", TodosController.createTodo);
 
+// Update a Todo
+router.patch("/:todoId", TodosController.updateTodo);
+
 export default router;

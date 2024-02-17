@@ -71,3 +71,56 @@ export const createTodo: RequestHandler<
     next(error);
   }
 };
+
+// Updating a todo
+interface UpdateTodoParams {
+  todoId: string;
+}
+
+interface UpdateTodoBody {
+  title?: string;
+  text?: string;
+  priority?: string;
+}
+// Update Todo
+export const updateTodo: RequestHandler<
+  UpdateTodoParams,
+  unknown,
+  UpdateTodoBody,
+  unknown
+> = async (req, res, next) => {
+  const todoId = req.params.todoId;
+  const newTitle = req.body.title;
+  const newText = req.body.text;
+  const newPriority = req.body.priority;
+
+  try {
+    // Check if the ID is not a valid mongoose objectId and throw an error
+    if (!mongoose.isValidObjectId(todoId)) {
+      throw createHttpError(400, "Invalid todo ID");
+    }
+    // Check if the title is blank and throw an error
+    if (!newTitle) {
+      throw createHttpError(400, "Todo must have a title");
+    }
+    // Check if the priority is blank and throw an error
+    if (!newPriority) {
+      throw createHttpError(400, "Todo must have a priority");
+    }
+
+    // Find the todo to be edited
+    const todo = await TodoModel.findById(todoId).exec();
+
+    if (!todo) {
+      throw createHttpError(404, "Todo not found");
+    }
+
+    todo.title = newTitle;
+    todo.text = newText;
+    todo.priority = newPriority;
+    const updatedTodo = await todo.save();
+    res.status(200).json(updatedTodo);
+  } catch (error) {
+    next(error);
+  }
+};
