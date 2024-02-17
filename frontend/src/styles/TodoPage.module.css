@@ -1,0 +1,12 @@
+.todo{
+  height: 250px;
+  min-width: 150px;
+  cursor: pointer;
+  transition: box-shadow .3s ease-in-out;
+}
+
+.todo:hover{
+  /* box-shadow: rgba(0,0,0,0.5) 0px 6px 24px 0px, rgba(0,0,0,0.8) 0px 0px 0px 1px */
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px; */
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}

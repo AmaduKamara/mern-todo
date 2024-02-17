@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { Todo } from "./models/todo";
+import { Todo as TodoModel } from "./models/todo";
+import Todo from "./components/Todo";
+import { Container, Row, Col } from "react-bootstrap";
+
+import styles from './styles/TodoPage.module.css'
+
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<TodoModel[]>([]);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -23,9 +28,15 @@ function App() {
   console.log(todos);
 
   return (
-    <div>
-      <h1>MERN Todo App</h1>
-    </div>
+    <Container>
+      <Row xs={1} md={2} xl={3} className="g-4">
+        {todos.map((todo) => (
+          <Col key={todo._id}>
+            <Todo  todo={todo} className={styles.todo}/>
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 }
 
