@@ -7,6 +7,9 @@ import mongoose from "mongoose";
 export const getTodos: RequestHandler = async (req, res, next) => {
   try {
     const todos = await TodoModel.find().exec();
+    if (!todos) {
+      throw createHttpError(404, "No Todos found");
+    }
     res.status(200).json(todos);
   } catch (error) {
     next(error);
