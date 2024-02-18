@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { Todo as TodoModel } from "./models/todo";
 import Todo from "./components/Todo";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import * as TodosApi from "./network/todos_api";
 
-import styles from './styles/TodoPage.module.css'
-
+import styles from "./styles/TodoPage.module.css";
+import AddTodoDialog from "./components/AddTodoDialog";
 
 function App() {
   const [todos, setTodos] = useState<TodoModel[]>([]);
+  const [showTodoDialog, setShowTodoDialog] = useState(false);
 
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/v1/todos", {
-          method: "GET",
-        });
-        const todos = await response.json();
+        const todos = await TodosApi.fetchTodos();
         setTodos(todos);
       } catch (error) {
         console.error(error);
@@ -29,13 +28,17 @@ function App() {
 
   return (
     <Container>
-      <Row xs={1} md={2} xl={3} className="g-4">
+      <Button onClick={() => setShowTodoDialog(true)}>Add New Todo</Button>
+      <Row xs={1} md={2} xl={3} className='g-4'>
         {todos.map((todo) => (
           <Col key={todo._id}>
-            <Todo  todo={todo} className={styles.todo}/>
+            <Todo todo={todo} className={styles.todo} />
           </Col>
         ))}
       </Row>
+      {showTodoDialog && (
+        <AddTodoDialog onDismis={() => setShowTodoDialog(false)} />
+      )}
     </Container>
   );
 }
