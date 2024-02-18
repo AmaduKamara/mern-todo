@@ -1,14 +1,17 @@
 import { Card, Badge } from "react-bootstrap";
 import { Todo as TodoModel } from "../models/todo";
 import styles from "../styles/Todo.module.css";
+import styleUtils from "../styles/Utils.module.css";
 import { formatDate } from "../utils/formatDate";
+import { MdDelete } from "react-icons/md";
 
 interface TodoProps {
   todo: TodoModel;
   className?: string;
+  onDeleteTodoClick: (todo: TodoModel) => void;
 }
 
-const Todo = ({ todo, className }: TodoProps) => {
+const Todo = ({ todo, className, onDeleteTodoClick }: TodoProps) => {
   const { title, text, priority, createdAt, updatedAt } = todo;
 
   let createdUpdatedText: string;
@@ -22,13 +25,28 @@ const Todo = ({ todo, className }: TodoProps) => {
   return (
     <Card className={`${styles.todoCard} ${className}`}>
       <Card.Body className={styles.cardBody}>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title className={styleUtils.flexCenter}>
+          {title}{" "}
+          <MdDelete
+            className='text-muted ms-auto'
+            onClick={(e) => {
+              onDeleteTodoClick(todo);
+              e.stopPropagation();
+            }}
+          />
+        </Card.Title>
+
         <Card.Text className={styles.cardText}>{text}</Card.Text>
-        <Badge bg={`${priority === "low" ? "warning" : "danger"}`} className={styles.badgeStyle}>
+      </Card.Body>
+      <Card.Footer className={`text-muted ${styles.cardFooter}`}>
+        {createdUpdatedText}{" "}
+        <Badge
+          bg={`${priority === "low" ? "warning" : "danger"}`}
+          className={styles.badgeStyle}
+        >
           {priority}
         </Badge>
-      </Card.Body>
-      <Card.Footer className='text-muted'>{createdUpdatedText}</Card.Footer>
+      </Card.Footer>
     </Card>
   );
 };

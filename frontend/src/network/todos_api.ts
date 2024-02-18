@@ -34,3 +34,9 @@ export async function createTodos(todo: TodoInput): Promise<Todo> {
   });
   return response.json();
 }
+
+export async function deleteTodo(todoId: string) {
+  await fetchData("http://localhost:5000/api/v1/todos/" + todoId, {
+    method: "DELETE",
+  });
+}
