@@ -5,6 +5,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import * as TodosApi from "./network/todos_api";
 
 import styles from "./styles/TodoPage.module.css";
+import styleUtils from "./styles/Utils.module.css";
 import AddTodoDialog from "./components/AddTodoDialog";
 
 function App() {
@@ -28,7 +29,9 @@ function App() {
 
   return (
     <Container>
-      <Button onClick={() => setShowTodoDialog(true)}>Add New Todo</Button>
+      <Button className={`mb-4 ${styleUtils.blockCenter}`} onClick={() => setShowTodoDialog(true)}>
+        + Add New Todo
+      </Button>
       <Row xs={1} md={2} xl={3} className='g-4'>
         {todos.map((todo) => (
           <Col key={todo._id}>
@@ -37,7 +40,13 @@ function App() {
         ))}
       </Row>
       {showTodoDialog && (
-        <AddTodoDialog onDismis={() => setShowTodoDialog(false)} />
+        <AddTodoDialog
+          onDismis={() => setShowTodoDialog(false)}
+          onTodoSaved={(newTodo) => {
+            setTodos([...todos, newTodo]);
+            setShowTodoDialog(false);
+          }}
+        />
       )}
     </Container>
   );
