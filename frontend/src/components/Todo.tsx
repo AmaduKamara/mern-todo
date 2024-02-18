@@ -24,7 +24,7 @@ const Todo = ({ todo, className }: TodoProps) => {
       <Card.Body className={styles.cardBody}>
         <Card.Title>{title}</Card.Title>
         <Card.Text className={styles.cardText}>{text}</Card.Text>
-        <Badge bg={`${priority === "low" ? "warning" : "danger"}`}>
+        <Badge bg={`${priority === "low" ? "warning" : "danger"}`} className={styles.badgeStyle}>
           {priority}
         </Badge>
       </Card.Body>
