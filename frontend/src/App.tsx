@@ -7,11 +7,12 @@ import { FaPlus } from "react-icons/fa";
 
 import styles from "./styles/TodoPage.module.css";
 import styleUtils from "./styles/Utils.module.css";
-import AddTodoDialog from "./components/AddTodoDialog";
+import AddEditTodoDialog from "./components/AddEditTodoDialog";
 
 function App() {
   const [todos, setTodos] = useState<TodoModel[]>([]);
   const [showTodoDialog, setShowTodoDialog] = useState(false);
+  const [todoToEdit, setTodoToEdit] = useState<TodoModel | null>(null);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -53,16 +54,33 @@ function App() {
               todo={todo}
               className={styles.todo}
               onDeleteTodoClick={deleteTodo}
+              onTodoClick={setTodoToEdit}
             />
           </Col>
         ))}
       </Row>
       {showTodoDialog && (
-        <AddTodoDialog
+        <AddEditTodoDialog
           onDismis={() => setShowTodoDialog(false)}
           onTodoSaved={(newTodo) => {
             setTodos([...todos, newTodo]);
             setShowTodoDialog(false);
+          }}
+        />
+      )}
+      {todoToEdit && (
+        <AddEditTodoDialog
+          todoToEdit={todoToEdit}
+          onDismis={() => setTodoToEdit(null)}
+          onTodoSaved={(updatedTodo) => {
+            setTodos(
+              todos.map((existingTodo) =>
+                existingTodo._id === updatedTodo._id
+                  ? updatedTodo
+                  : existingTodo
+              )
+            );
+            setTodoToEdit(null);
           }}
         />
       )}

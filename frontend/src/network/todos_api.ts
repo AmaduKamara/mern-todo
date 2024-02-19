@@ -26,7 +26,7 @@ export interface TodoInput {
   priority: string;
 }
 
-export async function createTodos(todo: TodoInput): Promise<Todo> {
+export async function createTodo(todo: TodoInput): Promise<Todo> {
   const response = await fetchData(apiUrl, {
     method: "POST",
     headers: {
@@ -41,7 +41,7 @@ export const updateTodo = async (
   todoId: string,
   todo: TodoInput
 ): Promise<Todo> => {
-  const response = await fetchData(apiUrl + todoId, {
+  const response = await fetchData(apiUrl + "/" + todoId, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

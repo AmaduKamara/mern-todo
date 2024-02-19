@@ -7,11 +7,17 @@ import { MdDelete } from "react-icons/md";
 
 interface TodoProps {
   todo: TodoModel;
+  onTodoClick: (todo: TodoModel) => void;
   className?: string;
   onDeleteTodoClick: (todo: TodoModel) => void;
 }
 
-const Todo = ({ todo, className, onDeleteTodoClick }: TodoProps) => {
+const Todo = ({
+  todo,
+  className,
+  onDeleteTodoClick,
+  onTodoClick,
+}: TodoProps) => {
   const { title, text, priority, createdAt, updatedAt } = todo;
 
   let createdUpdatedText: string;
@@ -23,7 +29,10 @@ const Todo = ({ todo, className, onDeleteTodoClick }: TodoProps) => {
   }
 
   return (
-    <Card className={`${styles.todoCard} ${className}`}>
+    <Card
+      onClick={() => onTodoClick(todo)}
+      className={`${styles.todoCard} ${className}`}
+    >
       <Card.Body className={styles.cardBody}>
         <Card.Title className={styleUtils.flexCenter}>
           {title}{" "}
