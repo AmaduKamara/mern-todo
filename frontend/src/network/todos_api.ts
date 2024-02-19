@@ -1,5 +1,7 @@
 import { Todo } from "../models/todo";
 
+const apiUrl = "http://localhost:5000/api/v1/todos";
+
 async function fetchData(input: RequestInfo, init?: RequestInit) {
   const response = await fetch(input, init);
   if (response.ok) {
@@ -12,7 +14,7 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
 }
 
 export async function fetchTodos(): Promise<Todo[]> {
-  const response = await fetchData("http://localhost:5000/api/v1/todos", {
+  const response = await fetchData(apiUrl, {
     method: "GET",
   });
   return response.json();
@@ -25,7 +27,7 @@ export interface TodoInput {
 }
 
 export async function createTodos(todo: TodoInput): Promise<Todo> {
-  const response = await fetchData("http://localhost:5000/api/v1/todos", {
+  const response = await fetchData(apiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,8 +37,22 @@ export async function createTodos(todo: TodoInput): Promise<Todo> {
   return response.json();
 }
 
+export const updateTodo = async (
+  todoId: string,
+  todo: TodoInput
+): Promise<Todo> => {
+  const response = await fetchData(apiUrl + todoId, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(todo),
+  });
+  return response.json();
+};
+
 export async function deleteTodo(todoId: string) {
-  await fetchData("http://localhost:5000/api/v1/todos/" + todoId, {
+  await fetchData(apiUrl + "/" + todoId, {
     method: "DELETE",
   });
 }
