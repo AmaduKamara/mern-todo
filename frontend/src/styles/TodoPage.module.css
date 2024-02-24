@@ -1,3 +1,14 @@
+
+.todosPage{
+  display: flex;
+  flex-direction: column;
+  align-itmes: center;
+}
+
+.todoGrid{
+  width: 100%;
+}
+
 .todo{
   height: 250px;
   min-width: 150px;
