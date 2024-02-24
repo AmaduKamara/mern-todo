@@ -3,9 +3,12 @@ import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 import todosRoutes from "./routes/todos";
 import userRoutes from "./routes/users";
+import env from "./utils/validateEnv";
 
 const app = express();
 
@@ -15,6 +18,22 @@ app.use(cors());
 
 // Express middleware
 app.use(express.json());
+
+// Express sieeion middleware - must be used before the routes
+app.use(
+  session({
+    secret: env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: MongoStore.create({
+      mongoUrl: env.MONGO_CONNECTION_STRING,
+    }),
+  })
+);
 
 // API Routes
 app.use("/api/v1/users", userRoutes);
