@@ -5,6 +5,7 @@ import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
 
 import todosRoutes from "./routes/todos";
+import userRoutes from "./routes/users";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 // API Routes
+app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/todos", todosRoutes);
 
 // Middleware to catch routes not found
