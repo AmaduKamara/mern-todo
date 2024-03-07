@@ -41,6 +41,7 @@ export const signUp: RequestHandler<
       throw createHttpError(400, "Please fill in all fields");
     }
 
+    // Check if the username exist and return an error message if it does
     const existingUsername = await UserModel.findOne({ username }).exec();
 
     if (existingUsername) {
@@ -50,6 +51,7 @@ export const signUp: RequestHandler<
       );
     }
 
+    // Check if the user email already exists an return an error message if it does
     const existingEmail = await UserModel.findOne({ email }).exec();
 
     if (existingEmail) {
@@ -59,8 +61,10 @@ export const signUp: RequestHandler<
       );
     }
 
+    // If user does not exist, then hash the password and then create the user
     const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
+    // Create a new user
     const newUser = await UserModel.create({
       username,
       email,
